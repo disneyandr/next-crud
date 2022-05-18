@@ -1,4 +1,3 @@
-import { runInThisContext } from "vm";
 import Cliente from "../../core/Cliente";
 import ClienteRepositorio from "../../core/ClienteRepositorio";
 import firebase from "../config";
@@ -21,11 +20,13 @@ export default class ColecaoCliente implements ClienteRepositorio {
     
     async salvar(cliente: Cliente): Promise<Cliente> {
         if(cliente?.id){
+            //alterando
             await this.colecao().doc(cliente.id).set(cliente)
             return cliente
         }else{
+            //salvar
             const docRef = await this.colecao().add(cliente)
-            const doc = await docRef.get(cliente)
+            const doc = await docRef.get()
             return doc.data()
         }
     }
